@@ -27,6 +27,16 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Teacher with given id does not exist", HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<Object> handleStudentMembershipException(StudentMembershipException exception) {
+        return new ResponseEntity<>("This student already has this teacher", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handleTeacherMembershipException(TeacherMembershipException exception) {
+        return new ResponseEntity<>("This teacher already has this student", HttpStatus.BAD_REQUEST);
+    }
+
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(

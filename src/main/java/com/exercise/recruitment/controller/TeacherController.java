@@ -44,6 +44,13 @@ public class TeacherController {
         return ResponseEntity.ok(teacherMapper.mapToTeacherDtoList(service.getTeacherBySurname(teachersSurname)));
     }
 
+    @GetMapping(value = "fullname/{teachersName}/{teachersSurname}")
+    public ResponseEntity<List<TeacherDto>> getStudentBySurname(@PathVariable String teachersName,
+                                                                @PathVariable String teachersSurname) {
+        return ResponseEntity.ok(teacherMapper.mapToTeacherDtoList(service
+                .getTeacherByNameAndSurname(teachersName, teachersSurname)));
+    }
+
     @DeleteMapping(value = "{teacherId}")
     public ResponseEntity<Void> deleteTeacher(@PathVariable Long teacherId) {
         service.deleteTeacherById(teacherId);
@@ -57,7 +64,7 @@ public class TeacherController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createTeacher(@Valid @RequestBody TeacherDto teacherDto) throws MethodArgumentNotValidException {
+    public ResponseEntity<Void> createTeacher(@Valid @RequestBody TeacherDto teacherDto) {
         service.saveTeacher(teacherMapper.mapToTeacher(teacherDto));
         return ResponseEntity.ok().build();
     }
@@ -65,7 +72,7 @@ public class TeacherController {
     @PostMapping(value = "{teacherId}/students/{studentId}/add")
     public ResponseEntity<TeacherDto> addTeacherToStudent(@PathVariable final Long teacherId,
                                                           @PathVariable final Long studentId)
-            throws StudentNotFoundException, TeacherNotFoundException {
+            throws StudentNotFoundException, TeacherNotFoundException, TeacherMembershipException {
 
         return ResponseEntity.ok(teacherMapper.mapToTeacherDto(service
                 .addStudentToTeacher(teacherId, studentId)));

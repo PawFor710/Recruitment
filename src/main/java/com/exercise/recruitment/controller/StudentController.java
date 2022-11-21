@@ -47,6 +47,13 @@ public class StudentController {
         return ResponseEntity.ok(studentMapper.mapToStudentDtoList(service.getStudentBySurname(studentsSurname)));
     }
 
+    @GetMapping(value = "fullname/{studentsName}/{studentsSurname}")
+    public ResponseEntity<List<StudentDto>> getStudentBySurname(@PathVariable String studentsName,
+                                                                @PathVariable String studentsSurname) {
+        return ResponseEntity.ok(studentMapper.mapToStudentDtoList(service
+                .getStudentByNameAndSurname(studentsName, studentsSurname)));
+    }
+
     @DeleteMapping(value = "{studentId}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long studentId) {
         service.deleteStudentById(studentId);
@@ -68,7 +75,7 @@ public class StudentController {
     @PostMapping(value = "{studentId}/teachers/{teacherId}/add")
     public ResponseEntity<StudentDto> addTeacherToStudent(@PathVariable final Long studentId,
                                                           @PathVariable final Long teacherId)
-            throws StudentNotFoundException, TeacherNotFoundException {
+            throws StudentNotFoundException, TeacherNotFoundException, StudentMembershipException {
 
         return ResponseEntity.ok(studentMapper.mapToStudentDto(service
                 .addTeacherToStudent(studentId, teacherId)));

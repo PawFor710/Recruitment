@@ -1,5 +1,6 @@
 package com.exercise.recruitment.repository;
 
+import com.exercise.recruitment.domain.Student;
 import com.exercise.recruitment.domain.Teacher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,4 +17,5 @@ public interface TeacherRepository extends CrudRepository<Teacher, Long> {
     List<Teacher> findAllByName(String teacherName);
     Optional<Teacher> findById(Long teacherId);
     List<Teacher> findAllBySurname(String teacherSurname);
+    List<Teacher> findAllByNameAndSurname(String teacherName, String teacherSurname);
 }

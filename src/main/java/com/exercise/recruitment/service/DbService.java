@@ -1,6 +1,8 @@
 package com.exercise.recruitment.service;
 
+import com.exercise.recruitment.controller.StudentMembershipException;
 import com.exercise.recruitment.controller.StudentNotFoundException;
+import com.exercise.recruitment.controller.TeacherMembershipException;
 import com.exercise.recruitment.controller.TeacherNotFoundException;
 import com.exercise.recruitment.domain.Student;
 import com.exercise.recruitment.domain.Teacher;
@@ -53,6 +55,14 @@ public class DbService {
         return teacherRepository.findAllBySurname(teacherSurname);
     }
 
+    public List<Student> getStudentByNameAndSurname(String studentName, String studentSurname) {
+        return studentRepository.findAllByNameAndSurname(studentName, studentSurname);
+    }
+
+    public List<Teacher> getTeacherByNameAndSurname(String teacherName, String teacherSurname) {
+        return teacherRepository.findAllByNameAndSurname(teacherName, teacherSurname);
+    }
+
     public Student saveStudent(final Student student) {
         return studentRepository.save(student);
     }
@@ -70,20 +80,29 @@ public class DbService {
     }
 
     @Transactional
-    public Student addTeacherToStudent(Long studentId, Long  teacherId) throws StudentNotFoundException, TeacherNotFoundException {
+    public Student addTeacherToStudent(Long studentId, Long  teacherId) throws StudentNotFoundException, TeacherNotFoundException, StudentMembershipException {
+
         Student student = getStudentById(studentId);
         Teacher teacher = getTeacherById(teacherId);
-        teacher.addStudent(student);
-        student.addTeacher(teacher);
+        if (!student.getTeachers().contains(teacher)) {
+            teacher.addStudent(student);
+            student.addTeacher(teacher);
+        } else {
+            throw new StudentMembershipException();
+        }
         return student;
     }
 
     @Transactional
-    public Teacher addStudentToTeacher(Long teacherId, Long studentId) throws StudentNotFoundException, TeacherNotFoundException {
+    public Teacher addStudentToTeacher(Long teacherId, Long studentId) throws StudentNotFoundException, TeacherNotFoundException, TeacherMembershipException {
         Teacher teacher = getTeacherById(teacherId);
         Student student = getStudentById(studentId);
-        student.addTeacher(teacher);
-        teacher.addStudent(student);
+        if (!teacher.getStudents().contains(student)) {
+            student.addTeacher(teacher);
+            teacher.addStudent(student);
+        } else {
+            throw new TeacherMembershipException();
+        }
         return teacher;
     }
 
