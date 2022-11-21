@@ -14,6 +14,6 @@ public interface TeacherRepository extends CrudRepository<Teacher, Long> {
 
     List<Teacher> findAll(Pageable pageable);
     List<Teacher> findAllByName(String teacherName);
-
     Optional<Teacher> findById(Long teacherId);
+    List<Teacher> findAllBySurname(String teacherSurname);
 }

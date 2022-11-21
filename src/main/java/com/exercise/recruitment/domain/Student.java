@@ -1,21 +1,20 @@
 package com.exercise.recruitment.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
-@Table(name = "students")
-@Entity
+@Entity(name = "students_university")
 public class Student {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +34,23 @@ public class Student {
     private String email;
     @Column(name = "major")
     private String major;
+    @ManyToMany(mappedBy = "students")
+    private List<Teacher> teachers = new ArrayList<>();
+
+    public void addTeacher(Teacher teacher) {
+        teachers.add(teacher);
+    }
+
+    public void removeTeacher(Teacher teacher) {
+        teachers.remove(teacher);
+    }
+
+    public Student(Long id, String name, String surname, int age, String email, String major) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+        this.major = major;
+    }
 }

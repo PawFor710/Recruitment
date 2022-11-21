@@ -2,8 +2,11 @@ package com.exercise.recruitment.mapper;
 
 import com.exercise.recruitment.domain.Student;
 import com.exercise.recruitment.domain.StudentDto;
+import com.exercise.recruitment.domain.Teacher;
+import com.exercise.recruitment.domain.TeacherDto;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +21,7 @@ public class StudentMapper {
                 studentDto.getAge(),
                 studentDto.getEmail(),
                 studentDto.getMajor());
+
     }
 
     public StudentDto mapToStudentDto(final Student student) {

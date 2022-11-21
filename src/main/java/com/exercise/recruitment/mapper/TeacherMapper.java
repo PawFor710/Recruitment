@@ -1,7 +1,5 @@
 package com.exercise.recruitment.mapper;
 
-import com.exercise.recruitment.domain.Student;
-import com.exercise.recruitment.domain.StudentDto;
 import com.exercise.recruitment.domain.Teacher;
 import com.exercise.recruitment.domain.TeacherDto;
 import org.springframework.stereotype.Service;

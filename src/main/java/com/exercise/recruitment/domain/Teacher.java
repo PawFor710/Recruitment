@@ -1,19 +1,19 @@
 package com.exercise.recruitment.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
-@Entity(name = "teachers")
+@Entity(name = "teachers_university")
 public class Teacher {
 
     @Id
@@ -33,4 +33,29 @@ public class Teacher {
     private String email;
     @Column(name = "subject")
     private String subject;
+
+    @ManyToMany
+    @JoinTable(
+            name = "teachers_students",
+            joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private List<Student> students = new ArrayList<>();
+
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
+    public void removeStudent(Student student) {
+        students.remove(student);
+    }
+
+    public Teacher(Long id, String name, String surname, int age, String email, String subject) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+        this.subject = subject;
+    }
 }

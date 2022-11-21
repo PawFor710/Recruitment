@@ -14,4 +14,9 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
     List<Student> findAll(Pageable pageable);
     List<Student> findAllByName(String studentName);
     Optional<Student> findById(Long studentId);
+    List<Student> findAllBySurname(String studentSurname);
+
+
+
+
 }
